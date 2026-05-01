@@ -20,40 +20,56 @@
     --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
     --shadow-md: 0 4px 16px rgba(0,0,0,.08);
   }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; font-size: 14px; line-height: 1.5; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; flex-direction: column; font-size: 14px; line-height: 1.5; }
 
-  .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
+  /* TOPBAR */
+  .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; z-index: 100; box-shadow: var(--shadow); }
   .logo-wrap { display: flex; align-items: center; gap: 9px; }
   .logo-icon { width: 28px; height: 28px; flex-shrink: 0; }
   .logo-text { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -0.2px; }
   .logo-text span { color: #7c3aed; }
   .topbar-right { display: flex; gap: 8px; align-items: center; }
-  .btn-ai { display: flex; align-items: center; gap: 6px; font-family: inherit; font-size: 13px; font-weight: 500; padding: 7px 16px; border-radius: 8px; background: var(--accent); color: #fff; border: 1px solid var(--accent-dark); cursor: pointer; transition: background 0.15s; }
-  .btn-ai:hover { background: var(--accent-dark); }
-  .btn-ai.secondary { background: var(--surface2); color: var(--text2); border: 1px solid var(--border2); }
-  .btn-ai.secondary:hover { background: var(--border); }
+  .btn-icon { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; cursor: pointer; color: var(--text2); transition: all 0.15s; }
+  .btn-icon:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  .btn-icon.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  .btn-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; }
 
-  .main { display: flex; flex: 1; height: calc(100vh - 56px); overflow: hidden; }
+  /* FILTER BAR */
+  .filter-bar { display: none; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .filter-bar.open { display: block; }
+  .filter-bar-inner { display: flex; flex-wrap: wrap; gap: 7px; padding: 10px 24px; align-items: center; }
+  .filter-bar-inner input, .filter-bar-inner select { font-family: inherit; font-size: 13px; padding: 6px 10px; border: 1px solid var(--border2); border-radius: 6px; background: var(--surface); color: var(--text); outline: none; height: 34px; transition: border-color 0.15s, box-shadow 0.15s; }
+  .filter-bar-inner input { flex: 1; min-width: 170px; }
+  .filter-bar-inner input:focus, .filter-bar-inner select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+  .filter-count { font-size: 12px; color: var(--text3); margin-left: auto; white-space: nowrap; }
 
+  /* MAIN LAYOUT */
+  .main { display: flex; flex: 1; min-height: 0; overflow: hidden; }
   .panel-library { width: 100%; display: flex; flex-direction: column; overflow: hidden; transition: width 0.3s ease; }
   .panel-library.split { width: 52%; border-right: 1px solid var(--border); }
 
-  .lib-header { padding: 16px 20px 14px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; }
-  .lib-header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-  .lib-label { font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.6px; }
-  .filters { display: flex; flex-wrap: wrap; gap: 7px; }
-  .filters input, .filters select { font-family: inherit; font-size: 13px; padding: 6px 10px; border: 1px solid var(--border2); border-radius: 6px; background: var(--surface); color: var(--text); outline: none; height: 34px; transition: border-color 0.15s, box-shadow 0.15s; }
-  .filters input { flex: 1; min-width: 170px; }
-  .filters input:focus, .filters select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
-  .count-bar { padding: 8px 20px 4px; font-size: 12px; color: var(--text3); flex-shrink: 0; }
+  /* AI HERO */
+  .ai-hero { padding: 20px 20px 16px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .ai-hero-label { font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
+  .input-wrap { display: flex; gap: 8px; align-items: flex-end; background: var(--surface2); border: 1px solid var(--border2); border-radius: 12px; padding: 11px 13px; transition: border-color 0.15s, box-shadow 0.15s; }
+  .input-wrap:focus-within { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px var(--accent-light); }
+  #ci { flex: 1; border: none; background: transparent; font-family: inherit; font-size: 14px; color: var(--text); resize: none; outline: none; max-height: 120px; min-height: 22px; line-height: 1.55; }
+  #ci::placeholder { color: var(--text3); }
+  .bsend { width: 32px; height: 32px; border-radius: 8px; background: var(--accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s; }
+  .bsend:hover { background: var(--accent-dark); }
+  .bsend:disabled { background: var(--border2); cursor: not-allowed; }
+  .bsend svg { width: 13px; height: 13px; fill: #fff; }
+  .ai-help-text { font-size: 12px; color: var(--text3); margin-top: 9px; line-height: 1.5; }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .chip { font-family: inherit; font-size: 11px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border2); background: var(--surface); color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
 
+  /* CARDS */
   .cards-scroll { flex: 1; overflow-y: auto; padding: 12px 14px 28px; }
   .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 10px; }
-
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 15px 17px; display: flex; flex-direction: column; gap: 9px; transition: box-shadow 0.15s, border-color 0.15s; box-shadow: var(--shadow); }
   .card:hover { box-shadow: var(--shadow-md); border-color: var(--border2); }
   .card.hl { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
-
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
   .card-name { font-size: 14px; font-weight: 600; color: var(--text); }
   .card-size { font-size: 11px; color: var(--text3); margin-top: 1px; }
@@ -64,13 +80,11 @@
   .b-k12 { background: var(--pink-light); color: var(--pink); }
   .b-energy { background: var(--teal-light); color: var(--teal); }
   .b-anon { background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
-
   .card-desc { font-size: 12px; color: var(--text2); line-height: 1.55; }
   .ptags { display: flex; flex-wrap: wrap; gap: 4px; }
   .ptag { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 999px; background: var(--accent-light); color: var(--accent); border: 1px solid #bfdbfe; }
   .prow { font-size: 11px; color: var(--text3); }
   .prow b { color: var(--text2); font-weight: 500; }
-
   .card-btns { display: flex; gap: 6px; padding-top: 6px; border-top: 1px solid var(--border); }
   .bdl { display: inline-flex; align-items: center; gap: 5px; font-family: inherit; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 6px; background: var(--accent); color: #fff; text-decoration: none; border: 1px solid var(--accent-dark); cursor: pointer; transition: background 0.15s; }
   .bdl:hover { background: var(--accent-dark); }
@@ -78,19 +92,17 @@
   .bpg:hover { background: var(--surface2); }
   .empty { text-align: center; padding: 48px 20px; color: var(--text3); grid-column: 1/-1; font-size: 13px; }
 
-  /* CHAT */
+  /* CHAT PANEL */
   .panel-chat { width: 0; overflow: hidden; display: flex; flex-direction: column; background: var(--surface); transition: width 0.3s ease; }
   .panel-chat.open { width: 48%; }
-
-  .chat-head { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; background: var(--surface); }
+  .chat-head { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
   .chat-head-left { display: flex; align-items: center; gap: 10px; }
   .aibubble { width: 32px; height: 32px; border-radius: 10px; background: var(--accent); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 15px; }
   .chat-title { font-size: 14px; font-weight: 600; }
   .chat-sub { font-size: 11px; color: var(--text3); }
   .btnx { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 16px; padding: 5px; border-radius: 6px; line-height: 1; }
   .btnx:hover { background: var(--surface2); color: var(--text); }
-
-  .chat-msgs { flex: 1; overflow-y: auto; padding: 18px 18px 10px; display: flex; flex-direction: column; gap: 14px; }
+  .chat-msgs { flex: 1; overflow-y: auto; padding: 18px 18px 18px; display: flex; flex-direction: column; gap: 14px; }
   .msg { display: flex; gap: 9px; animation: fu 0.2s ease; }
   @keyframes fu { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
   .mavatar { width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; }
@@ -100,26 +112,11 @@
   .msg.user .mbubble { background: var(--accent); color: #fff; border-radius: 11px; border-top-right-radius: 3px; }
   .msg.user { flex-direction: row-reverse; }
   .mbubble a { color: inherit; opacity: 0.88; text-decoration: underline; }
-
   .typing { display: flex; gap: 4px; padding: 3px 0; }
   .typing span { width: 5px; height: 5px; border-radius: 50%; background: var(--text3); animation: tb 1.2s infinite ease-in-out; }
   .typing span:nth-child(2) { animation-delay: 0.2s; }
   .typing span:nth-child(3) { animation-delay: 0.4s; }
   @keyframes tb { 0%,60%,100% { transform:translateY(0); } 30% { transform:translateY(-5px); } }
-
-  .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
-  .chip { font-family: inherit; font-size: 11px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border2); background: var(--surface); color: var(--text2); cursor: pointer; transition: all 0.15s; }
-  .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
-
-  .chat-input-area { padding: 10px 14px 14px; border-top: 1px solid var(--border); flex-shrink: 0; }
-  .input-wrap { display: flex; gap: 8px; align-items: flex-end; background: var(--surface2); border: 1px solid var(--border2); border-radius: 11px; padding: 9px 11px; transition: border-color 0.15s, box-shadow 0.15s; }
-  .input-wrap:focus-within { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px var(--accent-light); }
-  #ci { flex: 1; border: none; background: transparent; font-family: inherit; font-size: 13px; color: var(--text); resize: none; outline: none; max-height: 90px; min-height: 20px; line-height: 1.5; }
-  #ci::placeholder { color: var(--text3); }
-  .bsend { width: 28px; height: 28px; border-radius: 7px; background: var(--accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s; }
-  .bsend:hover { background: var(--accent-dark); }
-  .bsend:disabled { background: var(--border2); cursor: not-allowed; }
-  .bsend svg { width: 13px; height: 13px; fill: #fff; }
 </style>
 </head>
 <body>
@@ -143,51 +140,72 @@
     <div class="logo-text"><span>genea</span> case study library</div>
   </div>
   <div class="topbar-right">
-    <button class="btn-ai" id="btnOpenChat" onclick="openChat()">✦ Ask AI Assistant</button>
+    <button class="btn-icon" id="btnFilter" onclick="toggleFilter()" title="Filter & search">
+      <svg viewBox="0 0 20 20" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8.5" cy="8.5" r="5.5"/><path d="M16 16l-3.5-3.5"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <div class="filter-bar-inner">
+    <input type="text" id="srch" placeholder="Search by company, keyword..." oninput="rc()" />
+    <select id="fV" onchange="rc()">
+      <option value="">All verticals</option>
+      <option value="Tech">Tech</option>
+      <option value="CRE">Commercial Real Estate</option>
+      <option value="Manufacturing">Manufacturing</option>
+      <option value="K-12">K-12 Education</option>
+      <option value="Energy">Energy</option>
+      <option value="Anonymous">Anonymous</option>
+    </select>
+    <select id="fP" onchange="rc()">
+      <option value="">All products</option>
+      <option value="Access Control">Access Control</option>
+      <option value="Mobile Credentials">Mobile Credentials</option>
+      <option value="On-Demand HVAC">On-Demand HVAC</option>
+      <option value="Submeter Billing">Submeter Billing</option>
+    </select>
+    <select id="fT" onchange="rc()">
+      <option value="">All tech partners</option>
+      <option value="Okta">Okta</option>
+      <option value="Cisco Meraki">Cisco Meraki</option>
+      <option value="HID">HID</option>
+      <option value="Apple Wallet">Apple Wallet</option>
+      <option value="Azure AD">Azure AD</option>
+      <option value="Milestone Systems">Milestone Systems</option>
+      <option value="Slack">Slack</option>
+      <option value="VTS Rise">VTS Rise</option>
+      <option value="WaveLynx">WaveLynx</option>
+      <option value="Active Directory">Active Directory</option>
+      <option value="AWS">AWS</option>
+    </select>
+    <span id="cnt" class="filter-count"></span>
   </div>
 </div>
 
 <div class="main">
   <div class="panel-library" id="panelLib">
-    <div class="lib-header">
-      <div class="lib-header-top">
-        <div class="lib-label">All case studies</div>
+    <div class="ai-hero">
+      <div class="ai-hero-label">Find the right case study</div>
+      <div class="input-wrap">
+        <textarea id="ci" placeholder="Describe your prospect — industry, company size, tech stack, pain points..." rows="2"
+          onkeydown="hk(event)" oninput="ar(this)"></textarea>
+        <button class="bsend" id="bsend" onclick="send()">
+          <svg viewBox="0 0 16 16"><path d="M1 8l14-6-6 14-2-5-6-3z"/></svg>
+        </button>
       </div>
-      <div class="filters">
-        <input type="text" id="srch" placeholder="Search by company, keyword..." oninput="rc()" />
-        <select id="fV" onchange="rc()">
-          <option value="">All verticals</option>
-          <option value="Tech">Tech</option>
-          <option value="CRE">Commercial Real Estate</option>
-          <option value="Manufacturing">Manufacturing</option>
-          <option value="K-12">K-12 Education</option>
-          <option value="Energy">Energy</option>
-          <option value="Anonymous">Anonymous</option>
-        </select>
-        <select id="fP" onchange="rc()">
-          <option value="">All products</option>
-          <option value="Access Control">Access Control</option>
-          <option value="Mobile Credentials">Mobile Credentials</option>
-          <option value="On-Demand HVAC">On-Demand HVAC</option>
-          <option value="Submeter Billing">Submeter Billing</option>
-        </select>
-        <select id="fT" onchange="rc()">
-          <option value="">All tech partners</option>
-          <option value="Okta">Okta</option>
-          <option value="Cisco Meraki">Cisco Meraki</option>
-          <option value="HID">HID</option>
-          <option value="Apple Wallet">Apple Wallet</option>
-          <option value="Azure AD">Azure AD</option>
-          <option value="Milestone Systems">Milestone Systems</option>
-          <option value="Slack">Slack</option>
-          <option value="VTS Rise">VTS Rise</option>
-          <option value="WaveLynx">WaveLynx</option>
-          <option value="Active Directory">Active Directory</option>
-          <option value="AWS">AWS</option>
-        </select>
+      <p class="ai-help-text">Tell me about your prospect and I'll recommend the best-fit case study to send — include their industry, company size, tech stack, or the pain point they're trying to solve. Press Enter or click send.</p>
+      <div class="chips">
+        <button class="chip" onclick="qa('Show me all mobile credential case studies')">Mobile credentials</button>
+        <button class="chip" onclick="qa('Best case studies for CRE prospects?')">CRE prospects</button>
+        <button class="chip" onclick="qa('Prospect using Cisco Meraki — what fits?')">Meraki users</button>
+        <button class="chip" onclick="qa('What is our strongest ROI proof point?')">ROI proof point</button>
+        <button class="chip" onclick="qa('Tech company, 500 employees, uses Okta, wants to go mobile')">Tech + Okta + mobile</button>
+        <button class="chip" onclick="qa('Manufacturing company asking about going keycard-free')">Manufacturing mobile</button>
       </div>
     </div>
-    <div class="count-bar" id="cnt"></div>
     <div class="cards-scroll">
       <div class="cards-grid" id="grid"></div>
     </div>
@@ -205,15 +223,6 @@
       <button class="btnx" onclick="closeChat()">✕</button>
     </div>
     <div class="chat-msgs" id="msgs"></div>
-    <div class="chat-input-area">
-      <div class="input-wrap">
-        <textarea id="ci" placeholder="Describe your prospect and I'll find the right case study..." rows="1"
-          onkeydown="hk(event)" oninput="ar(this)"></textarea>
-        <button class="bsend" id="bsend" onclick="send()">
-          <svg viewBox="0 0 16 16"><path d="M1 8l14-6-6 14-2-5-6-3z"/></svg>
-        </button>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -282,43 +291,26 @@ function rc() {
     </div>`).join('');
 }
 
+function toggleFilter() {
+  const bar = document.getElementById('filterBar');
+  const btn = document.getElementById('btnFilter');
+  const open = bar.classList.toggle('open');
+  btn.classList.toggle('active', open);
+  if (open) document.getElementById('srch').focus();
+}
+
 function openChat() {
+  if (chatOpen) return;
   chatOpen = true;
   document.getElementById('panelLib').classList.add('split');
   document.getElementById('panelChat').classList.add('open');
-  document.getElementById('btnOpenChat').textContent = '✦ AI Open';
-  document.getElementById('btnOpenChat').classList.add('secondary');
-  document.getElementById('btnOpenChat').onclick = closeChat;
-  if (!hist.length) welcome();
-  setTimeout(() => document.getElementById('ci').focus(), 350);
 }
 
 function closeChat() {
   chatOpen = false;
   document.getElementById('panelLib').classList.remove('split');
   document.getElementById('panelChat').classList.remove('open');
-  const b = document.getElementById('btnOpenChat');
-  b.textContent = '✦ Ask AI Assistant';
-  b.classList.remove('secondary');
-  b.onclick = openChat;
 }
-
-function welcome() {
-  const m = document.getElementById('msgs');
-  m.innerHTML = `<div class="msg"><div class="mavatar ai">✦</div><div>
-    <div class="mbubble">Hey! I know every Genea case study in detail. Tell me about your prospect — vertical, size, tech stack, pain points — and I'll recommend exactly which case study to send them and why it fits.<br><br>Or try one of these:</div>
-    <div class="chips">
-      <button class="chip" onclick="qa('Show me all mobile credential case studies')">Mobile credentials</button>
-      <button class="chip" onclick="qa('Best case studies for CRE prospects?')">CRE prospects</button>
-      <button class="chip" onclick="qa('Prospect using Cisco Meraki — what fits?')">Meraki users</button>
-      <button class="chip" onclick="qa('What is our strongest ROI proof point?')">ROI proof point</button>
-      <button class="chip" onclick="qa('Tech company, 500 employees, uses Okta, wants to go mobile')">Tech + Okta + mobile</button>
-      <button class="chip" onclick="qa('Manufacturing company asking about going keycard-free')">Manufacturing mobile</button>
-    </div>
-  </div></div>`;
-}
-
-function qa(t) { document.getElementById('ci').value = t; send(); }
 
 function addMsg(role, html) {
   const m = document.getElementById('msgs');
@@ -354,6 +346,7 @@ async function send() {
   ci.value = ''; ci.style.height = 'auto';
   document.getElementById('bsend').disabled = true;
 
+  openChat();
   addMsg('user', txt);
   hist.push({ role:'user', content:txt });
   showTyping();
@@ -384,8 +377,9 @@ async function send() {
   document.getElementById('bsend').disabled = false;
 }
 
+function qa(t) { document.getElementById('ci').value = t; send(); }
 function hk(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); send(); } }
-function ar(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,90)+'px'; }
+function ar(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,120)+'px'; }
 
 rc();
 </script>
