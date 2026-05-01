@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genea Case Study Library</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f7f6f3; --surface: #ffffff; --surface2: #f0ede8;
+    --border: #e4e0d8; --border2: #d4cfc5;
+    --text: #1c1916; --text2: #6b6560; --text3: #9e9992;
+    --accent: #1a6fa8; --accent-light: #e8f3fb;
+    --green: #2a7a4b; --green-light: #e8f5ee;
+    --amber: #8a5c00; --amber-light: #fef3dc;
+    --pink: #8b3a5a; --pink-light: #fceef4;
+    --teal: #1a6b6b; --teal-light: #e5f5f5;
+    --radius: 10px; --radius-lg: 14px;
+  }
+  body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+  .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; height: 54px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .logo-text { font-size: 15px; font-weight: 600; }
+  .logo-text span { color: var(--accent); }
+  .topbar-right { display: flex; gap: 8px; align-items: center; }
+  .btn-ai { display: flex; align-items: center; gap: 6px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: 8px; background: var(--accent); color: #fff; border: none; cursor: pointer; transition: background 0.15s; }
+  .btn-ai:hover { background: #155f96; }
+  .btn-ai.secondary { background: var(--surface2); color: var(--text2); border: 1px solid var(--border2); }
+  .btn-ai.secondary:hover { background: var(--border); }
+
+  .main { display: flex; flex: 1; height: calc(100vh - 54px); overflow: hidden; }
+
+  .panel-library { width: 100%; display: flex; flex-direction: column; overflow: hidden; transition: width 0.3s ease; }
+  .panel-library.split { width: 52%; border-right: 1px solid var(--border); }
+
+  .lib-header { padding: 16px 20px 14px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .lib-header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .lib-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.7px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 7px; }
+  .filters input, .filters select { font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 6px 10px; border: 1px solid var(--border2); border-radius: 8px; background: var(--surface); color: var(--text); outline: none; height: 33px; transition: border-color 0.15s; }
+  .filters input { flex: 1; min-width: 170px; }
+  .filters input:focus, .filters select:focus { border-color: var(--accent); }
+  .count-bar { padding: 8px 20px 4px; font-size: 12px; color: var(--text3); flex-shrink: 0; }
+
+  .cards-scroll { flex: 1; overflow-y: auto; padding: 12px 14px 28px; }
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 10px; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 15px 17px; display: flex; flex-direction: column; gap: 9px; transition: box-shadow 0.15s, border-color 0.15s; }
+  .card:hover { box-shadow: 0 3px 16px rgba(0,0,0,0.07); border-color: var(--border2); }
+  .card.hl { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .card-name { font-size: 14px; font-weight: 600; color: var(--text); }
+  .card-size { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .vbadge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 999px; white-space: nowrap; flex-shrink: 0; }
+  .b-tech { background: var(--accent-light); color: var(--accent); }
+  .b-cre { background: var(--green-light); color: var(--green); }
+  .b-mfg { background: var(--amber-light); color: var(--amber); }
+  .b-k12 { background: var(--pink-light); color: var(--pink); }
+  .b-energy { background: var(--teal-light); color: var(--teal); }
+  .b-anon { background: var(--surface2); color: var(--text2); }
+
+  .card-desc { font-size: 12px; color: var(--text2); line-height: 1.55; }
+  .ptags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .ptag { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 999px; background: var(--accent-light); color: var(--accent); border: 1px solid #c0ddf0; }
+  .prow { font-size: 11px; color: var(--text3); }
+  .prow b { color: var(--text2); font-weight: 500; }
+
+  .card-btns { display: flex; gap: 6px; padding-top: 6px; border-top: 1px solid var(--border); }
+  .bdl { display: inline-flex; align-items: center; gap: 5px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 7px; background: var(--accent); color: #fff; text-decoration: none; border: none; cursor: pointer; transition: background 0.15s; }
+  .bdl:hover { background: #155f96; }
+  .bpg { display: inline-flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif; font-size: 12px; padding: 6px 10px; border-radius: 7px; background: transparent; color: var(--text2); border: 1px solid var(--border2); text-decoration: none; cursor: pointer; transition: background 0.15s; }
+  .bpg:hover { background: var(--surface2); }
+  .empty { text-align: center; padding: 48px 20px; color: var(--text3); grid-column: 1/-1; font-size: 13px; }
+
+  /* CHAT */
+  .panel-chat { width: 0; overflow: hidden; display: flex; flex-direction: column; background: var(--surface); transition: width 0.3s ease; }
+  .panel-chat.open { width: 48%; }
+
+  .chat-head { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .chat-head-left { display: flex; align-items: center; gap: 10px; }
+  .aibubble { width: 30px; height: 30px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+  .chat-title { font-size: 14px; font-weight: 600; }
+  .chat-sub { font-size: 11px; color: var(--text3); }
+  .btnx { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 16px; padding: 5px; border-radius: 6px; line-height: 1; }
+  .btnx:hover { background: var(--surface2); color: var(--text); }
+
+  .chat-msgs { flex: 1; overflow-y: auto; padding: 18px 18px 10px; display: flex; flex-direction: column; gap: 14px; }
+  .msg { display: flex; gap: 9px; animation: fu 0.2s ease; }
+  @keyframes fu { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+  .mavatar { width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; }
+  .mavatar.ai { background: var(--accent); color: #fff; }
+  .mavatar.user { background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
+  .mbubble { background: var(--surface2); border-radius: 11px; border-top-left-radius: 3px; padding: 9px 13px; font-size: 13px; line-height: 1.6; color: var(--text); max-width: calc(100% - 38px); }
+  .msg.user .mbubble { background: var(--accent); color: #fff; border-radius: 11px; border-top-right-radius: 3px; }
+  .msg.user { flex-direction: row-reverse; }
+  .mbubble a { color: inherit; opacity: 0.88; text-decoration: underline; }
+
+  .typing { display: flex; gap: 4px; padding: 3px 0; }
+  .typing span { width: 5px; height: 5px; border-radius: 50%; background: var(--text3); animation: tb 1.2s infinite ease-in-out; }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes tb { 0%,60%,100% { transform:translateY(0); } 30% { transform:translateY(-5px); } }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .chip { font-family: 'DM Sans', sans-serif; font-size: 11px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border2); background: var(--surface); color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+  .chat-input-area { padding: 10px 14px 14px; border-top: 1px solid var(--border); flex-shrink: 0; }
+  .input-wrap { display: flex; gap: 8px; align-items: flex-end; background: var(--surface2); border: 1px solid var(--border2); border-radius: 11px; padding: 9px 11px; transition: border-color 0.15s; }
+  .input-wrap:focus-within { border-color: var(--accent); background: var(--surface); }
+  #ci { flex: 1; border: none; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text); resize: none; outline: none; max-height: 90px; min-height: 20px; line-height: 1.5; }
+  #ci::placeholder { color: var(--text3); }
+  .bsend { width: 28px; height: 28px; border-radius: 7px; background: var(--accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s; }
+  .bsend:hover { background: #155f96; }
+  .bsend:disabled { background: var(--border2); cursor: not-allowed; }
+  .bsend svg { width: 13px; height: 13px; fill: #fff; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo-text"><span>genea</span> case study library</div>
+  <div class="topbar-right">
+    <button class="btn-ai" id="btnOpenChat" onclick="openChat()">✦ Ask AI Assistant</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="panel-library" id="panelLib">
+    <div class="lib-header">
+      <div class="lib-header-top">
+        <div class="lib-label">All case studies</div>
+      </div>
+      <div class="filters">
+        <input type="text" id="srch" placeholder="Search by company, keyword..." oninput="rc()" />
+        <select id="fV" onchange="rc()">
+          <option value="">All verticals</option>
+          <option value="Tech">Tech</option>
+          <option value="CRE">Commercial Real Estate</option>
+          <option value="Manufacturing">Manufacturing</option>
+          <option value="K-12">K-12 Education</option>
+          <option value="Energy">Energy</option>
+          <option value="Anonymous">Anonymous</option>
+        </select>
+        <select id="fP" onchange="rc()">
+          <option value="">All products</option>
+          <option value="Access Control">Access Control</option>
+          <option value="Mobile Credentials">Mobile Credentials</option>
+          <option value="On-Demand HVAC">On-Demand HVAC</option>
+          <option value="Submeter Billing">Submeter Billing</option>
+        </select>
+        <select id="fT" onchange="rc()">
+          <option value="">All tech partners</option>
+          <option value="Okta">Okta</option>
+          <option value="Cisco Meraki">Cisco Meraki</option>
+          <option value="HID">HID</option>
+          <option value="Apple Wallet">Apple Wallet</option>
+          <option value="Azure AD">Azure AD</option>
+          <option value="Milestone Systems">Milestone Systems</option>
+          <option value="Slack">Slack</option>
+          <option value="VTS Rise">VTS Rise</option>
+          <option value="WaveLynx">WaveLynx</option>
+          <option value="Active Directory">Active Directory</option>
+          <option value="AWS">AWS</option>
+        </select>
+      </div>
+    </div>
+    <div class="count-bar" id="cnt"></div>
+    <div class="cards-scroll">
+      <div class="cards-grid" id="grid"></div>
+    </div>
+  </div>
+
+  <div class="panel-chat" id="panelChat">
+    <div class="chat-head">
+      <div class="chat-head-left">
+        <div class="aibubble">✦</div>
+        <div>
+          <div class="chat-title">Case Study Assistant</div>
+          <div class="chat-sub">Powered by Claude · Genea data only</div>
+        </div>
+      </div>
+      <button class="btnx" onclick="closeChat()">✕</button>
+    </div>
+    <div class="chat-msgs" id="msgs"></div>
+    <div class="chat-input-area">
+      <div class="input-wrap">
+        <textarea id="ci" placeholder="Describe your prospect and I'll find the right case study..." rows="1"
+          onkeydown="hk(event)" oninput="ar(this)"></textarea>
+        <button class="bsend" id="bsend" onclick="send()">
+          <svg viewBox="0 0 16 16"><path d="M1 8l14-6-6 14-2-5-6-3z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CS = [
+  { name:"people.ai", vertical:"Tech", vc:"b-tech", size:"Multi-location · Global", desc:"Automated global security management from Kiev to San Francisco using Okta. Eliminated building technician dependency for all credentialing.", products:["Access Control"], partners:["Okta"], pageUrl:"https://www.getgenea.com/case-studies/people-ai-case-study/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/People.ai%20Case%20Study.pdf" },
+  { name:"Shopify", vertical:"Tech", vc:"b-tech", size:"Large Enterprise · 8 locations · 12,000+ users", desc:"Replaced key cards with Apple Wallet mobile credentials company-wide. SSO auto-provisions credentials at onboarding. First enterprise to deploy Genea's Apple Wallet integration.", products:["Access Control","Mobile Credentials"], partners:["Apple Wallet","HID","SSO"], pageUrl:"https://www.getgenea.com/case-studies/genea-shopify-case-study/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Case%20Study%20-%20Shopify.pdf" },
+  { name:"Global Enterprise", vertical:"Anonymous", vc:"b-anon", size:"Large Enterprise · 145 locations · 100,000+ users", desc:"Migrated 145 US locations from decade-old on-prem hardware to cloud. No proprietary lock-in. Active Directory + HR system integrated. Full deployment in months.", products:["Access Control"], partners:["Active Directory"], pageUrl:"https://www.getgenea.com/case-studies/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Case%20Study-%20Global%20Enterprise.pdf" },
+  { name:"Sage Realty", vertical:"CRE", vc:"b-cre", size:"Mid-Market · 6 buildings · 10,000+ users · 3M sq ft", desc:"Midtown Manhattan CRE firm. Software takeover reused 50% of existing hardware. Tenant portals for self-serve credentialing. VTS Rise integration enables campus-wide mobile access.", products:["Access Control","Mobile Credentials"], partners:["VTS Rise","HID","Mercury","Grid Squared Systems"], pageUrl:"https://www.getgenea.com/case-studies/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Case%20Study%20-%20How%20Cloud%20Access%20Control%20is%20Helping%20Sage%20Realty.pdf" },
+  { name:"Hines", vertical:"CRE", vc:"b-cre", size:"Large Enterprise · 12 Class-A buildings · 700+ meters", desc:"Global CRE firm with inaccurate submeter billing. Incorrect multipliers, unread meters, zero transparency. Genea audited 700+ meters, corrected all billing, delivered full cloud portal with audit trail.", products:["Submeter Billing"], partners:[], pageUrl:"https://www.getgenea.com/case-studies/hines-case-study/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Case%20Study%20-%20Hines.pdf" },
+  { name:"Vestavia Hills City Schools", vertical:"K-12", vc:"b-k12", size:"K-12 District · 9 campuses · 7,200 students", desc:"Replaced Lenel S2 with cloud access control. Milestone Systems camera integration for unified door + video view. Door scheduling auto-locks and unlocks by time of day.", products:["Access Control"], partners:["Milestone Systems","CDW","Mercury"], pageUrl:"https://www.getgenea.com/case-studies/vestavia-hills-city-schools-case-study/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Case%20Study%20-%20Vestavia%20Hills%20City%20Schools.pdf" },
+  { name:"Sunrun", vertical:"Energy", vc:"b-energy", size:"Mid-Market · 15 locations · 2,400+ users", desc:"Solar company unified 12+ disparate on-prem systems into one global dashboard. Cisco Meraki cameras linked to door events. Security incidents auto-push to Slack and Microsoft Teams.", products:["Access Control"], partners:["Cisco Meraki","AWS","Slack"], pageUrl:"https://www.getgenea.com/case-studies/genea-sunrun-access-control/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Case%20Study%20-%20Sunrun%20(1).pdf" },
+  { name:"G&J Pepsi", vertical:"Manufacturing", vc:"b-mfg", size:"Enterprise · 13 locations · 1,700+ users · 24/7 ops", desc:"Pepsi's largest family-owned bottler. Azure AD auto-revokes physical access when digital account is disabled — saving HR 60 hrs/year. WaveLynx readers for mobile credentials. Power Platform tracks approvals.", products:["Access Control","Mobile Credentials"], partners:["Cisco Meraki","Azure AD","WaveLynx"], pageUrl:"https://www.getgenea.com/case-studies/gj-pepsi/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Case%20Study%20-%20G%26J%20Pepsi.pdf" },
+  { name:"Jamf", vertical:"Tech", vc:"b-tech", size:"Large Enterprise · 15 global offices · 2,500+ users", desc:"Apple device management company. First enterprise Apple Wallet badge deployment with HID Signo readers. Okta provisions globally in minutes. Slack alerts for all door events. 'I've never had people so excited.'", products:["Access Control","Mobile Credentials"], partners:["Apple Wallet","HID","Okta","Slack","Mercury"], pageUrl:"https://www.getgenea.com/case-studies/jamf-journey-to-mobile-access-control/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/JAMF%20%20%20Apple%20Wallet%20Case%20Study%20(High-Res).pdf" },
+  { name:"OfferUp", vertical:"Tech", vc:"b-tech", size:"Mid-Market · 75,000 sq ft HQ · Fast-growing", desc:"One Okta sign-on automatically provisions physical building access. Revokes instantly on departure or role change. Zero manual work. Software takeover — no HID hardware retrofit needed.", products:["Access Control"], partners:["Okta","HID"], pageUrl:"https://www.getgenea.com/case-studies/offerup/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/OfferUp%20Case%20Study.pdf" },
+  { name:"Outreach", vertical:"Tech", vc:"b-tech", size:"Mid-Market · 3 locations · Seattle, SF, Tampa", desc:"Sales software company. Okta lifecycle management automates provisioning across 3 locations. Cisco Meraki integration prevents piggybacking and unauthorized access.", products:["Access Control"], partners:["Okta","Cisco Meraki"], pageUrl:"https://www.getgenea.com/case-studies/outreach/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Outreach%20Case%20Study.pdf" },
+  { name:"CRE Buildings — Energy Savings Study", vertical:"Anonymous", vc:"b-anon", size:"Portfolio · 5 buildings · Atlanta, Houston, SoCal", desc:"On-demand HVAC buildings achieved double the energy savings vs. scheduled buildings. Tenants used only 26% of normal operating floor-hours when given on-demand control.", products:["On-Demand HVAC"], partners:[], pageUrl:"https://www.getgenea.com/case-studies/cost-and-energy-savings-in-cre-buildings/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Case%20Study%20-%20Leveraging%20Tenant%20Empowerment%20Technology%20to%20Reduce%20Your%20Building%27s%20Operating%20Expenses.pdf" },
+  { name:"HVAC Automation — 355% ROI", vertical:"Anonymous", vc:"b-anon", size:"Single Building · 650,000 sq ft · Florida", desc:"45% revenue increase in 12 months. $27K energy savings. $18K labor savings. $65K net incremental value after fees. 355% ROI. The strongest On-Demand HVAC financial proof point in the library.", products:["On-Demand HVAC"], partners:[], pageUrl:"https://www.getgenea.com/case-studies/overtime-hvac-automation-return-on-investment/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Case%20Study-%20How%20On-Demand%20HVAC%20Automation%20Led%20to%20a%20355%25%20Return%20on%20Investment.pdf" }
+];
+
+const SYS = `You are a knowledgeable sales assistant for Genea — a cloud-based physical security and building technology company. You help Genea sales reps find the right case study for their specific prospect.
+
+Here is the complete case study library:
+${JSON.stringify(CS, null, 2)}
+
+Rules:
+- Only reference case studies from the library above. Never invent data.
+- When a rep describes a prospect, recommend 1–3 case studies with a clear explanation of WHY each one fits.
+- Always include the PDF link in markdown format: [Download PDF](url)
+- Be concise, direct, and conversational — like a knowledgeable teammate.
+- Use short paragraphs or bullets. Keep it scannable.
+- If asked about products, verticals, or partners broadly, answer from the data.`;
+
+let hist = [], hl = [], chatOpen = false;
+
+function mt(c) {
+  const q = (document.getElementById('srch').value||'').toLowerCase();
+  const v = document.getElementById('fV').value;
+  const p = document.getElementById('fP').value;
+  const t = document.getElementById('fT').value;
+  if (q && !JSON.stringify(c).toLowerCase().includes(q)) return false;
+  if (v && c.vertical !== v) return false;
+  if (p && !c.products.includes(p)) return false;
+  if (t && !c.partners.includes(t)) return false;
+  return true;
+}
+
+function rc() {
+  const f = CS.filter(mt);
+  document.getElementById('cnt').textContent = f.length + ' of ' + CS.length + ' case studies';
+  const g = document.getElementById('grid');
+  if (!f.length) { g.innerHTML = '<div class="empty">No results — try different filters.</div>'; return; }
+  g.innerHTML = f.map(c => `
+    <div class="card ${hl.includes(c.name)?'hl':''}" id="c_${c.name.replace(/\W/g,'_')}">
+      <div class="card-top">
+        <div><div class="card-name">${c.name}</div><div class="card-size">${c.size}</div></div>
+        <span class="vbadge ${c.vc}">${c.vertical}</span>
+      </div>
+      <div class="card-desc">${c.desc}</div>
+      <div class="ptags">${c.products.map(p=>`<span class="ptag">${p}</span>`).join('')}</div>
+      ${c.partners.length?`<div class="prow"><b>Partners:</b> ${c.partners.join(', ')}</div>`:''}
+      <div class="card-btns">
+        <a class="bdl" href="${c.pdfUrl}" target="_blank">↓ Download PDF</a>
+        <a class="bpg" href="${c.pageUrl}" target="_blank">View page ↗</a>
+      </div>
+    </div>`).join('');
+}
+
+function openChat() {
+  chatOpen = true;
+  document.getElementById('panelLib').classList.add('split');
+  document.getElementById('panelChat').classList.add('open');
+  document.getElementById('btnOpenChat').textContent = '✦ AI Open';
+  document.getElementById('btnOpenChat').classList.add('secondary');
+  document.getElementById('btnOpenChat').onclick = closeChat;
+  if (!hist.length) welcome();
+  setTimeout(() => document.getElementById('ci').focus(), 350);
+}
+
+function closeChat() {
+  chatOpen = false;
+  document.getElementById('panelLib').classList.remove('split');
+  document.getElementById('panelChat').classList.remove('open');
+  const b = document.getElementById('btnOpenChat');
+  b.textContent = '✦ Ask AI Assistant';
+  b.classList.remove('secondary');
+  b.onclick = openChat;
+}
+
+function welcome() {
+  const m = document.getElementById('msgs');
+  m.innerHTML = `<div class="msg"><div class="mavatar ai">✦</div><div>
+    <div class="mbubble">Hey! I know every Genea case study in detail. Tell me about your prospect — vertical, size, tech stack, pain points — and I'll recommend exactly which case study to send them and why it fits.<br><br>Or try one of these:</div>
+    <div class="chips">
+      <button class="chip" onclick="qa('Show me all mobile credential case studies')">Mobile credentials</button>
+      <button class="chip" onclick="qa('Best case studies for CRE prospects?')">CRE prospects</button>
+      <button class="chip" onclick="qa('Prospect using Cisco Meraki — what fits?')">Meraki users</button>
+      <button class="chip" onclick="qa('What is our strongest ROI proof point?')">ROI proof point</button>
+      <button class="chip" onclick="qa('Tech company, 500 employees, uses Okta, wants to go mobile')">Tech + Okta + mobile</button>
+      <button class="chip" onclick="qa('Manufacturing company asking about going keycard-free')">Manufacturing mobile</button>
+    </div>
+  </div></div>`;
+}
+
+function qa(t) { document.getElementById('ci').value = t; send(); }
+
+function addMsg(role, html) {
+  const m = document.getElementById('msgs');
+  const d = document.createElement('div');
+  d.className = 'msg ' + role;
+  const av = role === 'ai' ? '<div class="mavatar ai">✦</div>' : '<div class="mavatar user">You</div>';
+  const bub = `<div class="mbubble">${html}</div>`;
+  d.innerHTML = role === 'user' ? bub + av : av + '<div>' + bub + '</div>';
+  m.appendChild(d);
+  m.scrollTop = m.scrollHeight;
+}
+
+function showTyping() {
+  const m = document.getElementById('msgs');
+  const d = document.createElement('div');
+  d.className = 'msg'; d.id = 'typ';
+  d.innerHTML = '<div class="mavatar ai">✦</div><div class="mbubble"><div class="typing"><span></span><span></span><span></span></div></div>';
+  m.appendChild(d); m.scrollTop = m.scrollHeight;
+}
+
+function fmt(t) {
+  return t
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+    .replace(/\n\n/g,'<br><br>').replace(/\n- /g,'<br>• ').replace(/\n/g,'<br>');
+}
+
+async function send() {
+  const ci = document.getElementById('ci');
+  const txt = ci.value.trim();
+  if (!txt) return;
+  ci.value = ''; ci.style.height = 'auto';
+  document.getElementById('bsend').disabled = true;
+
+  addMsg('user', txt);
+  hist.push({ role:'user', content:txt });
+  showTyping();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':'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','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, system:SYS, messages:hist })
+    });
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || 'Sorry, something went wrong. Please try again.';
+    document.getElementById('typ')?.remove();
+    hist.push({ role:'assistant', content:reply });
+    addMsg('ai', fmt(reply));
+
+    hl = CS.filter(c => reply.includes(c.name)).map(c => c.name);
+    rc();
+    if (hl.length) {
+      const el = document.getElementById('c_' + hl[0].replace(/\W/g,'_'));
+      if (el) el.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    }
+  } catch(e) {
+    document.getElementById('typ')?.remove();
+    addMsg('ai', 'Connection error. Please check your network and try again.');
+  }
+
+  document.getElementById('bsend').disabled = false;
+}
+
+function hk(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); send(); } }
+function ar(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,90)+'px'; }
+
+rc();
+</script>
+</body>
+</html>
