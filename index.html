@@ -355,9 +355,15 @@ async function send() {
     const res = await fetch('/.netlify/functions/chat', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, system:SYS, messages:hist })
+      body: JSON.stringify({ model:'claude-sonnet-4-6', max_tokens:1000, system:SYS, messages:hist })
     });
     const data = await res.json();
+    if (!res.ok || data.error) {
+      document.getElementById('typ')?.remove();
+      addMsg('ai', `Error: ${data.error?.message || data.error || 'Something went wrong. Please try again.'}`);
+      document.getElementById('bsend').disabled = false;
+      return;
+    }
     const reply = data.content?.[0]?.text || 'Sorry, something went wrong. Please try again.';
     document.getElementById('typ')?.remove();
     hist.push({ role:'assistant', content:reply });
