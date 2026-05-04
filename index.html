@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Genea Case Study Library</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='16' cy='18' r='10' fill='%234c1d95'/%3E%3Ccircle cx='48' cy='18' r='10' fill='%234c1d95'/%3E%3Ccircle cx='16' cy='18' r='6' fill='%237c3aed'/%3E%3Ccircle cx='48' cy='18' r='6' fill='%237c3aed'/%3E%3Ccircle cx='32' cy='37' r='24' fill='%237c3aed'/%3E%3Cellipse cx='23' cy='31' rx='6.5' ry='5.5' fill='%231e1b4b'/%3E%3Cellipse cx='41' cy='31' rx='6.5' ry='5.5' fill='%231e1b4b'/%3E%3Cellipse cx='23' cy='31' rx='6.5' ry='5.5' fill='none' stroke='%237c3aed' stroke-width='1.5'/%3E%3Cellipse cx='41' cy='31' rx='6.5' ry='5.5' fill='none' stroke='%237c3aed' stroke-width='1.5'/%3E%3Cpath d='M29.5 31 Q32 29.5 34.5 31' fill='none' stroke='%237c3aed' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='16.5' y1='30' x2='9' y2='28' stroke='%237c3aed' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='47.5' y1='30' x2='55' y2='28' stroke='%237c3aed' stroke-width='1.5' stroke-linecap='round'/%3E%3Cellipse cx='20' cy='28.5' rx='2' ry='1.5' fill='white' opacity='0.25'/%3E%3Cellipse cx='38' cy='28.5' rx='2' ry='1.5' fill='white' opacity='0.25'/%3E%3Cellipse cx='32' cy='41' rx='6' ry='4' fill='%234c1d95'/%3E%3Cellipse cx='32' cy='41' rx='4' ry='2.5' fill='%23a78bfa'/%3E%3Cpath d='M25 47 Q32 53 39 47' stroke='%23a78bfa' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<title>Case Study Coach</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='16' cy='18' r='10' fill='%23007AB5'/%3E%3Ccircle cx='48' cy='18' r='10' fill='%23007AB5'/%3E%3Ccircle cx='16' cy='18' r='6' fill='%23009CDE'/%3E%3Ccircle cx='48' cy='18' r='6' fill='%23009CDE'/%3E%3Ccircle cx='32' cy='37' r='24' fill='%23009CDE'/%3E%3Cellipse cx='23' cy='31' rx='6.5' ry='5.5' fill='%231e1b4b'/%3E%3Cellipse cx='41' cy='31' rx='6.5' ry='5.5' fill='%231e1b4b'/%3E%3Cellipse cx='23' cy='31' rx='6.5' ry='5.5' fill='none' stroke='%23009CDE' stroke-width='1.5'/%3E%3Cellipse cx='41' cy='31' rx='6.5' ry='5.5' fill='none' stroke='%23009CDE' stroke-width='1.5'/%3E%3Cpath d='M29.5 31 Q32 29.5 34.5 31' fill='none' stroke='%23009CDE' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='16.5' y1='30' x2='9' y2='28' stroke='%23009CDE' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='47.5' y1='30' x2='55' y2='28' stroke='%23009CDE' stroke-width='1.5' stroke-linecap='round'/%3E%3Cellipse cx='20' cy='28.5' rx='2' ry='1.5' fill='white' opacity='0.25'/%3E%3Cellipse cx='38' cy='28.5' rx='2' ry='1.5' fill='white' opacity='0.25'/%3E%3Cellipse cx='32' cy='41' rx='6' ry='4' fill='%23007AB5'/%3E%3Cellipse cx='32' cy='41' rx='4' ry='2.5' fill='%2366C8EE'/%3E%3Cpath d='M25 47 Q32 53 39 47' stroke='%2366C8EE' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -27,7 +27,7 @@
   .logo-wrap { display: flex; align-items: center; gap: 9px; }
   .logo-icon { width: 28px; height: 28px; flex-shrink: 0; }
   .logo-text { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -0.2px; }
-  .logo-text span { color: #7c3aed; }
+  .logo-text span { color: #009CDE; }
   .topbar-right { display: flex; gap: 8px; align-items: center; }
   .btn-icon { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; cursor: pointer; color: var(--text2); transition: all 0.15s; }
   .btn-icon:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
@@ -136,30 +136,30 @@
 <div class="topbar">
   <div class="logo-wrap">
     <svg class="logo-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="16" cy="18" r="10" fill="#4c1d95"/>
-      <circle cx="48" cy="18" r="10" fill="#4c1d95"/>
-      <circle cx="16" cy="18" r="6" fill="#7c3aed"/>
-      <circle cx="48" cy="18" r="6" fill="#7c3aed"/>
-      <circle cx="32" cy="37" r="24" fill="#7c3aed"/>
+      <circle cx="16" cy="18" r="10" fill="#007AB5"/>
+      <circle cx="48" cy="18" r="10" fill="#007AB5"/>
+      <circle cx="16" cy="18" r="6" fill="#009CDE"/>
+      <circle cx="48" cy="18" r="6" fill="#009CDE"/>
+      <circle cx="32" cy="37" r="24" fill="#009CDE"/>
       <!-- sunglasses lenses -->
       <ellipse cx="23" cy="31" rx="6.5" ry="5.5" fill="#1e1b4b"/>
       <ellipse cx="41" cy="31" rx="6.5" ry="5.5" fill="#1e1b4b"/>
       <!-- lens rims -->
-      <ellipse cx="23" cy="31" rx="6.5" ry="5.5" fill="none" stroke="#7c3aed" stroke-width="1.5"/>
-      <ellipse cx="41" cy="31" rx="6.5" ry="5.5" fill="none" stroke="#7c3aed" stroke-width="1.5"/>
+      <ellipse cx="23" cy="31" rx="6.5" ry="5.5" fill="none" stroke="#009CDE" stroke-width="1.5"/>
+      <ellipse cx="41" cy="31" rx="6.5" ry="5.5" fill="none" stroke="#009CDE" stroke-width="1.5"/>
       <!-- bridge -->
-      <path d="M29.5 31 Q32 29.5 34.5 31" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M29.5 31 Q32 29.5 34.5 31" fill="none" stroke="#009CDE" stroke-width="1.5" stroke-linecap="round"/>
       <!-- arms -->
-      <line x1="16.5" y1="30" x2="9" y2="28" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="47.5" y1="30" x2="55" y2="28" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="16.5" y1="30" x2="9" y2="28" stroke="#009CDE" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="47.5" y1="30" x2="55" y2="28" stroke="#009CDE" stroke-width="1.5" stroke-linecap="round"/>
       <!-- lens shine -->
       <ellipse cx="20" cy="28.5" rx="2" ry="1.5" fill="white" opacity="0.25"/>
       <ellipse cx="38" cy="28.5" rx="2" ry="1.5" fill="white" opacity="0.25"/>
-      <ellipse cx="32" cy="41" rx="6" ry="4" fill="#4c1d95"/>
-      <ellipse cx="32" cy="41" rx="4" ry="2.5" fill="#a78bfa"/>
-      <path d="M25 47 Q32 53 39 47" stroke="#a78bfa" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="32" cy="41" rx="6" ry="4" fill="#007AB5"/>
+      <ellipse cx="32" cy="41" rx="4" ry="2.5" fill="#66C8EE"/>
+      <path d="M25 47 Q32 53 39 47" stroke="#66C8EE" stroke-width="2" fill="none" stroke-linecap="round"/>
     </svg>
-    <div class="logo-text"><span>genea</span> case study library</div>
+    <div class="logo-text">case study <span>coach</span></div>
   </div>
   <div class="topbar-right">
     <button class="btn-icon" id="btnFilter" onclick="toggleFilter()" title="Filter & search">
