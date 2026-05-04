@@ -19,7 +19,14 @@ exports.handler = async (event) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: { message: 'API key not configured. Please contact the site administrator.' } })
+      body: JSON.stringify({ error: { message: 'ANTHROPIC_API_KEY environment variable is not set in Netlify.' } })
+    };
+  }
+  if (!apiKey.startsWith('sk-ant-')) {
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: { message: `API key format looks wrong (starts with "${apiKey.slice(0, 6)}..."). Anthropic keys start with "sk-ant-". Please update ANTHROPIC_API_KEY in Netlify.` } })
     };
   }
 
