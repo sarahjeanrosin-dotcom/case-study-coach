@@ -16,6 +16,7 @@
     --amber: #b45309; --amber-light: #fef3c7;
     --pink: #be185d; --pink-light: #fce7f3;
     --teal: #0f766e; --teal-light: #ccfbf1;
+    --purple: #7c3aed; --purple-light: #ede9fe;
     --radius: 10px; --radius-lg: 12px;
     --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
     --shadow-md: 0 4px 16px rgba(0,0,0,.08);
@@ -80,6 +81,7 @@
   .b-k12 { background: var(--pink-light); color: var(--pink); }
   .b-energy { background: var(--teal-light); color: var(--teal); }
   .b-anon { background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
+  .b-highed { background: var(--purple-light); color: var(--purple); }
   .card-desc { font-size: 12px; color: var(--text2); line-height: 1.55; }
   .ptags { display: flex; flex-wrap: wrap; gap: 4px; }
   .ptag { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 999px; background: var(--accent-light); color: var(--accent); border: 1px solid #bfdbfe; }
@@ -188,6 +190,7 @@
       <option value="Manufacturing">Manufacturing</option>
       <option value="K-12">K-12 Education</option>
       <option value="Energy">Energy</option>
+      <option value="Higher Ed">Higher Ed</option>
       <option value="Anonymous">Anonymous</option>
     </select>
     <select id="fP" onchange="rc()">
@@ -210,6 +213,9 @@
       <option value="WaveLynx">WaveLynx</option>
       <option value="Active Directory">Active Directory</option>
       <option value="AWS">AWS</option>
+      <option value="Illumia">Illumia</option>
+      <option value="Allegion">Allegion</option>
+      <option value="Mercury">Mercury</option>
     </select>
     <span id="cnt" class="filter-count"></span>
   </div>
@@ -270,7 +276,8 @@ const CS = [
   { name:"OfferUp", vertical:"Tech", vc:"b-tech", size:"Mid-Market · 75,000 sq ft HQ · Fast-growing", desc:"One Okta sign-on automatically provisions physical building access. Revokes instantly on departure or role change. Zero manual work. Software takeover — no HID hardware retrofit needed.", products:["Access Control"], partners:["Okta","HID"], pageUrl:"https://www.getgenea.com/case-studies/offerup/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/OfferUp%20Case%20Study.pdf" },
   { name:"Outreach", vertical:"Tech", vc:"b-tech", size:"Mid-Market · 3 locations · Seattle, SF, Tampa", desc:"Sales software company. Okta lifecycle management automates provisioning across 3 locations. Cisco Meraki integration prevents piggybacking and unauthorized access.", products:["Access Control"], partners:["Okta","Cisco Meraki"], pageUrl:"https://www.getgenea.com/case-studies/outreach/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Outreach%20Case%20Study.pdf" },
   { name:"CRE Buildings — Energy Savings Study", vertical:"Anonymous", vc:"b-anon", size:"Portfolio · 5 buildings · Atlanta, Houston, SoCal", desc:"On-demand HVAC buildings achieved double the energy savings vs. scheduled buildings. Tenants used only 26% of normal operating floor-hours when given on-demand control.", products:["On-Demand HVAC"], partners:[], pageUrl:"https://www.getgenea.com/case-studies/cost-and-energy-savings-in-cre-buildings/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Case%20Study%20-%20Leveraging%20Tenant%20Empowerment%20Technology%20to%20Reduce%20Your%20Building%27s%20Operating%20Expenses.pdf" },
-  { name:"HVAC Automation — 355% ROI", vertical:"Anonymous", vc:"b-anon", size:"Single Building · 650,000 sq ft · Florida", desc:"45% revenue increase in 12 months. $27K energy savings. $18K labor savings. $65K net incremental value after fees. 355% ROI. The strongest On-Demand HVAC financial proof point in the library.", products:["On-Demand HVAC"], partners:[], pageUrl:"https://www.getgenea.com/case-studies/overtime-hvac-automation-return-on-investment/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Case%20Study-%20How%20On-Demand%20HVAC%20Automation%20Led%20to%20a%20355%25%20Return%20on%20Investment.pdf" }
+  { name:"HVAC Automation — 355% ROI", vertical:"Anonymous", vc:"b-anon", size:"Single Building · 650,000 sq ft · Florida", desc:"45% revenue increase in 12 months. $27K energy savings. $18K labor savings. $65K net incremental value after fees. 355% ROI. The strongest On-Demand HVAC financial proof point in the library.", products:["On-Demand HVAC"], partners:[], pageUrl:"https://www.getgenea.com/case-studies/overtime-hvac-automation-return-on-investment/", pdfUrl:"https://go.getgenea.com/hubfs/Genea%20Assets/case%20studies/Case%20Study-%20How%20On-Demand%20HVAC%20Automation%20Led%20to%20a%20355%25%20Return%20on%20Investment.pdf" },
+  { name:"Mercer University", vertical:"Higher Ed", vc:"b-highed", size:"University · 15 campuses · 4,000+ doors · Georgia", desc:"Migrated 15 Georgia campuses and 4,000+ doors from a 30-year-old Illumia on-premise system to cloud. Phased three-fiscal-year rollout preserved existing Allegion and HID hardware. Sub-two-minute per-door downtime — senior admins never knew the work had happened.", products:["Access Control"], partners:["Illumia","HID","Allegion","Mercury"], pageUrl:"https://www.getgenea.com/case-studies/genea-mercer-case-study/", pdfUrl:"https://go.getgenea.com/hubfs/All%20Genea%20Assets/case%20studies/Case%20Study%20-%20Mercer%20University.pdf" }
 ];
 
 const SYS = `You are a knowledgeable sales assistant for Genea — a cloud-based physical security and building technology company. You help Genea sales reps find the right case study for their specific prospect.
