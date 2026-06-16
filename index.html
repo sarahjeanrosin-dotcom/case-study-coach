@@ -144,7 +144,16 @@
   .btn-fb-send { font-family:inherit; font-size:12px; font-weight:600; padding:5px 12px; border-radius:6px; background:var(--accent); color:#fff; border:none; cursor:pointer; align-self:flex-start; transition:background 0.15s; }
   .btn-fb-send:hover { background:var(--accent-dark); }
   .feedback-thanks { font-size:11px; color:var(--text3); margin-top:6px; }
-  .ppain { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 999px; background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+  .ppain { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 999px; border: 1px solid; }
+  .pp-red    { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+  .pp-amber  { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+  .pp-green  { background: #dcfce7; color: #16a34a; border-color: #bbf7d0; }
+  .pp-blue   { background: #dbeafe; color: #2563eb; border-color: #bfdbfe; }
+  .pp-indigo { background: #e0e7ff; color: #4338ca; border-color: #c7d2fe; }
+  .pp-purple { background: #ede9fe; color: #7c3aed; border-color: #c4b5fd; }
+  .pp-teal   { background: #ccfbf1; color: #0f766e; border-color: #99f6e4; }
+  .pp-pink   { background: #fce7f3; color: #be185d; border-color: #fbcfe8; }
+  .pp-slate  { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
   .pain-label { font-size: 11px; color: var(--text3); margin-bottom: 3px; }
   .pain-label b { color: var(--text2); font-weight: 500; }
 </style>
@@ -297,6 +306,18 @@ Rules:
 - If asked about products, verticals, or partners broadly, answer from the data.
 - If the prospect's profile has NO matching case study in the library (the use case, product, or vertical genuinely doesn't exist), start your ENTIRE response with the single token [NO_MATCH] on its own line, then briefly explain what was asked for and mention the closest available case study if there is one.`;
 
+const PAIN_COLOR = {
+  "Security gaps":       "pp-red",
+  "IT/HR overhead":      "pp-amber",
+  "Energy waste":        "pp-green",
+  "Multi-location mgmt": "pp-blue",
+  "No mobile access":    "pp-indigo",
+  "Manual provisioning": "pp-purple",
+  "Siloed systems":      "pp-teal",
+  "Billing inaccuracy":  "pp-pink",
+  "Legacy system":       "pp-slate",
+};
+
 let hist = [], hl = [], chatOpen = false;
 
 function mt(c) {
@@ -323,7 +344,7 @@ function rc() {
         <span class="vbadge ${c.vc}">${c.vertical}</span>
       </div>
       <div class="card-desc">${c.desc}</div>
-      ${c.pains && c.pains.length ? `<div class="pain-label"><b>Pain points:</b></div><div class="ptags">${c.pains.map(p=>`<span class="ppain">${p}</span>`).join('')}</div>` : ''}
+      ${c.pains && c.pains.length ? `<div class="pain-label"><b>Pain points:</b></div><div class="ptags">${c.pains.map(p=>`<span class="ppain ${PAIN_COLOR[p]||''}">${p}</span>`).join('')}</div>` : ''}
       <div class="ptags">${c.products.map(p=>`<span class="ptag">${p}</span>`).join('')}</div>
       ${c.partners.length?`<div class="prow"><b>Partners:</b> ${c.partners.join(', ')}</div>`:''}
       <div class="card-btns">
